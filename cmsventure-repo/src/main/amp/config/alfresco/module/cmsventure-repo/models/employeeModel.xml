@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Definition of new Model -->
+<model name="cv:model" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+    <!-- Optional meta-data about the model -->
+    <description>Employee custom content model</description>
+    <author>Saurabh Srivastava</author>
+    <version>1.0</version>
+
+    <!-- Imports are required to allow references to definitions in other models -->
+    <imports>
+        <!-- Import Alfresco Dictionary Definitions -->
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d" />
+        <!-- Import Alfresco Content Domain Model Definitions -->
+        <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm" />
+    </imports>
+
+    <!-- Introduction of new namespaces defined by this model -->
+    <namespaces>
+        <namespace uri="http://www.sicom.com/model/content/1.0" prefix="cv" />
+    </namespaces>
+
+    <constraints>
+        <constraint name="cv:designation-list" type="LIST">
+            <parameter name="allowedValues">
+                <list>
+                    <value>Engineer</value>
+                    <value>Analyst</value>
+                    <value>Consultant</value>
+                    <value>Director</value>
+                </list>
+            </parameter>
+        </constraint>
+        
+        <constraint name="cv:technology-list" type="LIST">
+            <parameter name="allowedValues">
+                <list>
+                    <value>Alfresco</value>
+                    <value>Java</value>
+                    <value>Drupal</value>
+                    <value>Php</value>
+                </list>
+            </parameter>
+        </constraint>
+    </constraints>
+    
+    <types>
+    	<type name="cv:employee-picture">
+    		<title>Employee Picture</title>
+    		<parent>cm:content</parent>
+    	</type>
+    	
+		<type name="cv:employee">
+            <title>Employee</title>
+            <parent>cm:content</parent>
+            <properties>
+            	<property name="cv:employee-name">
+            		<type>d:text</type>
+            		<multiple>false</multiple>
+            	</property>
+            	<property name="cv:employee-number">
+            		<type>d:int</type>
+            		<multiple>false</multiple>
+            	</property>
+            	<property name="cv:employee-designation">
+            		<type>d:text</type>
+            		<multiple>false</multiple>
+            		<constraints>
+            			<constraint ref="cv:designation-list" />
+            		</constraints>
+            	</property>
+            	<property name="cv:technology">
+            		<type>d:text</type>
+            		<multiple>true</multiple>
+            		<constraints>
+            			<constraint ref="cv:technology-list" />
+            		</constraints>
+            	</property>
+            	<property name="cv:joining-date">
+            		<type>d:date</type>
+            		<multiple>false</multiple>
+            	</property>
+            	<property name="cv:project">
+            		<type>d:text</type>
+            		<multiple>false</multiple>
+            	</property>
+            	<property name="cv:address">
+            		<type>d:text</type>
+            		<multiple>false</multiple>
+            	</property>
+            </properties>
+            <associations>
+                <association name="cv:employee-details">
+                    <title>Employee Details</title>
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>false</many>
+                    </source>
+                    <target>
+                        <class>cv:employee-picture</class>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </target>
+                </association>
+            </associations>
+            <mandatory-aspects>
+                <aspect>cv:open-source-contributor</aspect>
+            </mandatory-aspects>
+        </type>
+	</types>
+	
+    <aspects>
+    	<aspect name="cv:open-source-contributor">
+            <title>Open Source Contributor</title>
+            <properties>
+                <property name="cv:git-hub-id">
+                    <type>d:text</type>
+                    <multiple>false</multiple>
+                </property>
+                <property name="cv:public-mail-id">
+                    <type>d:date</type>
+                    <multiple>false</multiple>
+                </property>
+            </properties>
+        </aspect>
+    </aspects>
+    
+</model>
